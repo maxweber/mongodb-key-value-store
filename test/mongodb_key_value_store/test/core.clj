@@ -7,21 +7,15 @@
 
 (mongo! :db :test)
 
-(def collection-name "keyvalue")
-
-(def get-value (get-fn collection-name))
-
-(def put-value (put-fn collection-name))
-
-(def remove-value (remove-fn collection-name))
+(def config "keyvalue")
 
 (describe "MongoDB key value store"
   (given [data {:a 1 :b "value" :c :key :d [1 {:e \a} 3]}
           key (:a data)]
     (do-it "should can put an arbitrary Clojure data structure into a MongoDB collection and get it by key"
-      (put-value key data)
-      (let [stored-data (get-value key)]
+      (put-value config key data)
+      (let [stored-data (get-value config key)]
         (expect (= data stored-data))))
     (do-it "should also can remove a value from the store by key"
-      (remove-value key)
-      (expect (= nil (get-value key))))))
+      (remove-value config key)
+      (expect (= nil (get-value config key))))))
